@@ -2,9 +2,17 @@ name: c4cds
 channels:
 - birdhouse
 - conda-forge
-- defaults
 dependencies:
 - pywps=4.1
 - jinja2
 - click
 - psutil
+# regridder
+- nco
+- pynco
+- cdo
+- python-cdo
+- numpy
+- netcdf4
+# tests
+- pytest
