@@ -1,6 +1,7 @@
 import os
 import shutil
 import re
+import glob
 
 from netCDF4 import Dataset
 from nco import Nco
@@ -53,13 +54,18 @@ def get_grid_cell_area_variable(var_id, path, archive_base=None):
         return None
 
     d = map_to_drs(path, archive_base=archive_base)
-    cell_areas_file = os.path.join(
+    cell_areas_path = os.path.join(
         archive_base, d.activity, d.product, d.institute,
         d.model, d.experiment, "fx", d.modeling_realm, "fx", "r0i0p0",
-        "latest", acm, acm_file_name)
+        "*", acm, acm_file_name)
 
-    if not os.path.isfile(cell_areas_file):
-        LOGGER.warning("Cell areas file not found at: {}".format(cell_areas_file))
+    files = glob.glob(cell_areas_path)
+    if not files:
+        LOGGER.warning("Cell areas file not found at: {}".format(cell_areas_path))
         return None
-
+    elif len(files) == 1:
+        cell_areas_file = files[0]
+    else:
+        # TODO: get latest version
+        cell_areas_file = files[0]
     return cell_areas_file
