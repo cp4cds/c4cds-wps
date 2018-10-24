@@ -1,8 +1,16 @@
+import os
+
 from pywps import Process
 from pywps import LiteralInput
 from pywps import ComplexOutput
 from pywps import FORMATS
+from pywps import configuration
 from pywps.app.Common import Metadata
+
+from c4cds.regridder import Regridder, REGIONAL
+
+
+TEST_NC = "/opt/data/cordex/tasmin_AFR-44i_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_mon_199001-199012.nc"
 
 
 class CordexRegridder(Process):
@@ -48,7 +56,6 @@ class CordexRegridder(Process):
             version='1.0',
             title='CORDEX Regridder',
             abstract='CORDEX Regridder using CDO.',
-            profile='',
             metadata=[
                 Metadata('CP4CDS Portal', 'https://cp4cds.github.io/'),
             ],
@@ -58,8 +65,13 @@ class CordexRegridder(Process):
             status_supported=True
         )
 
-    @staticmethod
-    def _handler(request, response):
-        # response.outputs['output'].data = 'done'
+    def _handler(self, request, response):
+        regridder = Regridder(
+            archive_base=configuration.get_config_value("data", "archive_root"),
+            grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
+            output_dir=os.path.join(self.workdir, 'outputs')
+        )
+        output_file = regridder.regrid(input_file=TEST_NC, domain_type=REGIONAL)
+        response.outputs['output'].file = output_file
         response.update_status("done.", 100)
         return response
