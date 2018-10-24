@@ -46,7 +46,8 @@ def test_regrid_cordex():
         '/tmp/out/0.5_deg/tasmin_AFR-44i_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_mon_199001-199012.nc'
 
 
-@pytest.mark.skip(reason='not working')
+@pytest.mark.data
 def test_regrid_cmip5():
-    regridder = Regridder()
-    assert regridder.regrid(CMIP5_NC, GLOBAL) == ''
+    regridder = Regridder(archive_base=ARCHIVE_BASE)
+    assert regridder.regrid(CMIP5_NC, GLOBAL) == \
+        '/tmp/out/1_deg/tas_day_HadGEM2-ES_historical_r1i1p1_19791201-19891130.nc'
