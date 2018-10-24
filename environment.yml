@@ -14,5 +14,7 @@ dependencies:
 - python-cdo
 - numpy
 - netcdf4
+# search
+- climaf # python 2.7 only
 # tests
 - pytest

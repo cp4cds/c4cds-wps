@@ -1,6 +1,7 @@
 import os
 import tempfile
 
+from netCDF4 import Dataset
 from cdo import Cdo
 
 from c4cds import util
@@ -86,11 +87,11 @@ class Regridder(object):
         #        "No spatial grid in this dataset or not recognised grid. Please check the grid in the dataset.")
 
     def validate_regridded_file(self, input_file, domain_type):
-        cdo = Cdo()
-        sinfo = cdo.sinfo(input=input_file)
-
+        ds = Dataset(input_file)
         if domain_type == GLOBAL:
-            if "points=64800 (360x180)" not in sinfo:
-                raise Exception("Output grid not correct for: {}".format(input_file))
+            LOGGER.debug("lat={}, lon={}".format(ds.dimensions['lat'].size, ds.dimensions['lon'].size))
+            if not(ds.dimensions['lat'].size == 180 and ds.dimensions['lon'].size == 360):
+                msg = "Output grid not correct for: {}".format(input_file)
+                raise Exception(msg)
         else:
-            LOGGER.warning("NOT CHECKING OUTPUT GRID for REGIONAL DATA")
+            LOGGER.warning("NOT CHECKING OUTPUT GRID for REGIONAL DATA!")
