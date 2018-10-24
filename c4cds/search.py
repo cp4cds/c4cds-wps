@@ -7,7 +7,7 @@ LOGGER = logging.getLogger('PYWPS')
 
 # init climaf
 os.environ['CLIMAF_CACHE'] = os.path.join(tempfile.gettempdir(), 'climaf_cache')
-# os.environ['CLIMAF_LOG_DIR'] = tempfile.gettempdir()
+os.environ['CLIMAF_LOG_DIR'] = tempfile.gettempdir()
 
 from climaf.api import ds
 from climaf.dataloc import dataloc
