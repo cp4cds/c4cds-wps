@@ -8,7 +8,15 @@ from pywps import configuration
 from pywps.app.Common import Metadata
 
 from c4cds.regridder import Regridder, REGIONAL
-from c4cds.search import search_cordex
+from c4cds.search import Search
+
+CORDEX_DOMAIN_MAP = {
+    'Africa': 'AFR-44i',
+    'Europe': 'EUR-44i',
+    'UK': 'EUR-44i',
+    'France': 'EUR-44i',
+    'Germany': 'EUR-44i',
+}
 
 
 class CordexRegridder(Process):
@@ -69,19 +77,20 @@ class CordexRegridder(Process):
         )
 
     def _handler(self, request, response):
-        nc_file = search_cordex(
+        search = Search(configuration.get_config_value("data", "cordex_archive_root"))
+        nc_file = search.search_cordex(
             model=request.inputs['model'][0].data,
             experiment=request.inputs['experiment'][0].data,
             ensemble=request.inputs['ensemble'][0].data,
             variable=request.inputs['variable'][0].data,
-            domain=request.inputs['domain'][0].data,
+            domain=CORDEX_DOMAIN_MAP[request.inputs['domain'][0].data],
             start_year=request.inputs['start_year'][0].data,
             end_year=request.inputs['end_year'][0].data,
         )
         if not nc_file:
             raise Exception("Could not find CORDEX file.")
         regridder = Regridder(
-            archive_base=configuration.get_config_value("data", "archive_root"),
+            archive_base=configuration.get_config_value("data", "cordex_archive_root"),
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
             output_dir=os.path.join(self.workdir, 'outputs')
         )
