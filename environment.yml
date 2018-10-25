@@ -10,10 +10,10 @@ dependencies:
 # regridder
 - nco
 - pynco
-- cdo
+- cdo=1.9.5
 - python-cdo
 - numpy
-- netcdf4
+- netcdf4=1.4.1
 # search
 - climaf # python 2.7 only
 # tests
