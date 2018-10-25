@@ -8,7 +8,7 @@ from pywps import configuration
 from pywps.app.Common import Metadata
 
 from c4cds.regridder import Regridder, GLOBAL
-from c4cds.search import search_cmip5
+from c4cds.search import Search
 
 
 class CMIP5Regridder(Process):
@@ -65,7 +65,8 @@ class CMIP5Regridder(Process):
         )
 
     def _handler(self, request, response):
-        nc_file = search_cmip5(
+        search = Search(configuration.get_config_value("data", "cmip5_archive_root"))
+        nc_file = search.search_cmip5(
             model=request.inputs['model'][0].data,
             experiment=request.inputs['experiment'][0].data,
             ensemble=request.inputs['ensemble'][0].data,
@@ -74,7 +75,7 @@ class CMIP5Regridder(Process):
             end_year=request.inputs['end_year'][0].data,
         )
         regridder = Regridder(
-            archive_base=configuration.get_config_value("data", "archive_root"),
+            archive_base=configuration.get_config_value("data", "cmip5_archive_root"),
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
             output_dir=os.path.join(self.workdir, 'outputs')
         )
