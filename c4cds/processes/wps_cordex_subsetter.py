@@ -9,6 +9,7 @@ from pywps.app.Common import Metadata
 
 from c4cds.regridder import Regridder, REGIONAL
 from c4cds.search import Search
+from c4cds.ncdump import ncdump
 
 CORDEX_DOMAIN_MAP = {
     'Cairo': 'AFR-44i',
@@ -47,10 +48,14 @@ class CordexSubsetter(Process):
                          default="1990"),
         ]
         outputs = [
-            ComplexOutput('output', 'Output',
-                          abstract='Regridded NetCDF file.',
+            ComplexOutput('output', 'Subsetted Dataset',
+                          abstract='Subsetted Dataset.',
                           as_reference=True,
                           supported_formats=[FORMATS.NETCDF]),
+            ComplexOutput('ncdump', 'Metadata',
+                          abstract='ncdump of subsetted Dataset.',
+                          as_reference=True,
+                          supported_formats=[FORMATS.TEXT]),
         ]
 
         super(CordexSubsetter, self).__init__(
@@ -80,6 +85,8 @@ class CordexSubsetter(Process):
         )
         if not nc_file:
             raise Exception("Could not find CORDEX file.")
+        response.update_status('search done.', 10)
+        # regridding
         regridder = Regridder(
             archive_base=configuration.get_config_value("data", "cordex_archive_root"),
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
@@ -87,5 +94,12 @@ class CordexSubsetter(Process):
         )
         output_file = regridder.regrid(input_file=nc_file, domain_type=REGIONAL)
         response.outputs['output'].file = output_file
+        response.update_status('regridding done.', 60)
+        # run ncdump
+        with open(os.path.join(self.workdir, "nc_dump.txt"), 'w') as fp:
+            response.outputs['ncdump'].file = fp.name
+            fp.writelines(ncdump(output_file))
+            response.update_status('ncdump done.', 90)
+        # done
         response.update_status("done.", 100)
         return response

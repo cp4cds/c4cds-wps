@@ -9,6 +9,7 @@ from pywps.app.Common import Metadata
 
 from c4cds.regridder import Regridder, GLOBAL
 from c4cds.search import Search
+from c4cds.ncdump import ncdump
 
 
 class CMIP5Regridder(Process):
@@ -34,10 +35,14 @@ class CMIP5Regridder(Process):
             #              default="1980"),
         ]
         outputs = [
-            ComplexOutput('output', 'Output',
-                          abstract='Regridded NetCDF file.',
+            ComplexOutput('output', 'Regridded Dataset',
+                          abstract='Regridded Dataset.',
                           as_reference=True,
                           supported_formats=[FORMATS.NETCDF]),
+            ComplexOutput('ncdump', 'Metadata',
+                          abstract='ncdump of regridded Dataset.',
+                          as_reference=True,
+                          supported_formats=[FORMATS.TEXT]),
         ]
 
         super(CMIP5Regridder, self).__init__(
@@ -65,6 +70,10 @@ class CMIP5Regridder(Process):
             # start_year=request.inputs['year'][0].data,
             # end_year=request.inputs['year'][0].data,
         )
+        if not nc_file:
+            raise Exception("Could not find CMIP5 file.")
+        response.update_status('search done.', 10)
+        # regridding
         regridder = Regridder(
             archive_base=configuration.get_config_value("data", "cmip5_archive_root"),
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
@@ -72,5 +81,12 @@ class CMIP5Regridder(Process):
         )
         output_file = regridder.regrid(input_file=nc_file, domain_type=GLOBAL)
         response.outputs['output'].file = output_file
+        response.update_status('regridding done.', 80)
+        # run ncdump
+        with open(os.path.join(self.workdir, "nc_dump.txt"), 'w') as fp:
+            response.outputs['ncdump'].file = fp.name
+            fp.writelines(ncdump(output_file))
+            response.update_status('ncdump done.', 90)
+        # done
         response.update_status("done.", 100)
         return response
