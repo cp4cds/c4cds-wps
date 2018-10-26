@@ -24,22 +24,14 @@ class CMIP5Regridder(Process):
                          data_type='string',
                          allowed_values=['historical', 'rcp26', 'rcp45', 'rcp85'],
                          default='historical'),
-            LiteralInput('ensemble', 'Ensemble',
-                         abstract='Choose an ensemble like r1i1p1.',
-                         data_type='string',
-                         allowed_values=['r1i1p1', 'r2i1p1', 'r3i1p1'],
-                         default='r1i1p1'),
             LiteralInput('variable', 'Variable',
                          abstract='Choose a variable like tas.',
                          data_type='string',
                          allowed_values=['tas', 'tasmax', 'tasmin'],
                          default='tas'),
-            LiteralInput('start_year', 'Start year', data_type='integer',
-                         abstract='Start year of model data.',
-                         default="1980"),
-            LiteralInput('end_year', 'End year', data_type='integer',
-                         abstract='End year of model data.',
-                         default="1981"),
+            # LiteralInput('year', 'Match year', data_type='integer',
+            #              abstract='File should match this year.',
+            #              default="1980"),
         ]
         outputs = [
             ComplexOutput('output', 'Output',
@@ -69,10 +61,9 @@ class CMIP5Regridder(Process):
         nc_file = search.search_cmip5(
             model=request.inputs['model'][0].data,
             experiment=request.inputs['experiment'][0].data,
-            ensemble=request.inputs['ensemble'][0].data,
             variable=request.inputs['variable'][0].data,
-            start_year=request.inputs['start_year'][0].data,
-            end_year=request.inputs['end_year'][0].data,
+            # start_year=request.inputs['year'][0].data,
+            # end_year=request.inputs['year'][0].data,
         )
         regridder = Regridder(
             archive_base=configuration.get_config_value("data", "cmip5_archive_root"),

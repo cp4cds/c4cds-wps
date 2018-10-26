@@ -11,48 +11,40 @@ from c4cds.regridder import Regridder, REGIONAL
 from c4cds.search import Search
 
 CORDEX_DOMAIN_MAP = {
-    'Africa': 'AFR-44i',
-    'Europe': 'EUR-44i',
+    'Cairo': 'AFR-44i',
     'UK': 'EUR-44i',
     'France': 'EUR-44i',
     'Germany': 'EUR-44i',
 }
 
 
-class CordexRegridder(Process):
+class CordexSubsetter(Process):
     def __init__(self):
         inputs = [
-            LiteralInput('domain', 'Domain',
-                         abstract='Choose a regional Domain.',
+            LiteralInput('region', 'Region',
+                         abstract='Choose a Country like UK.',
                          data_type='string',
-                         allowed_values=['Africa', 'Europe', 'UK', 'France', 'Germany'],
-                         default='Africa'),
+                         allowed_values=['Cairo', 'UK', 'France', 'Germany'],
+                         default='Cairo'),
             LiteralInput('model', 'Model',
-                         abstract='Choose a model like MPI-ESM-LR.',
+                         abstract='Choose a model like MOHC-HadRM3P.',
                          data_type='string',
-                         allowed_values=['MOHC-HadRM3P', 'MPI-ESM-LR', 'MPI-ESM-MR'],
+                         allowed_values=['MOHC-HadRM3P'],
                          default='MOHC-HadRM3P'),
             LiteralInput('experiment', 'Experiment',
-                         abstract='Choose an experiment like historical.',
+                         abstract='Choose an experiment like evaluation.',
                          data_type='string',
-                         allowed_values=['evaluation', 'historical', 'rcp26', 'rcp45', 'rcp85'],
+                         allowed_values=['evaluation'],
                          default='evaluation'),
-            LiteralInput('ensemble', 'Ensemble',
-                         abstract='Choose an ensemble like r1i1p1.',
-                         data_type='string',
-                         allowed_values=['r1i1p1', 'r2i1p1', 'r3i1p1'],
-                         default='r1i1p1'),
             LiteralInput('variable', 'Variable',
                          abstract='Choose a variable like tas.',
                          data_type='string',
                          allowed_values=['tas', 'tasmax', 'tasmin'],
                          default='tasmin'),
-            LiteralInput('start_year', 'Start year', data_type='integer',
-                         abstract='Start year of model data.',
-                         default="2000"),
-            LiteralInput('end_year', 'End year', data_type='integer',
-                         abstract='End year of model data.',
-                         default="2001"),
+            LiteralInput('year', 'Match year', data_type='integer',
+                         abstract='File should match this year.',
+                         allowed_values=[1990, 2000, 2010],
+                         default="1990"),
         ]
         outputs = [
             ComplexOutput('output', 'Output',
@@ -61,12 +53,12 @@ class CordexRegridder(Process):
                           supported_formats=[FORMATS.NETCDF]),
         ]
 
-        super(CordexRegridder, self).__init__(
+        super(CordexSubsetter, self).__init__(
             self._handler,
-            identifier='cordex_regridder',
+            identifier='cordex_subsetter',
             version='1.0',
-            title='CORDEX Regridder',
-            abstract='CORDEX Regridder using CDO.',
+            title='CORDEX Subsetter',
+            abstract='CORDEX Subsetter using CDO.',
             metadata=[
                 Metadata('CP4CDS Portal', 'https://cp4cds.github.io/'),
             ],
@@ -81,11 +73,10 @@ class CordexRegridder(Process):
         nc_file = search.search_cordex(
             model=request.inputs['model'][0].data,
             experiment=request.inputs['experiment'][0].data,
-            ensemble=request.inputs['ensemble'][0].data,
             variable=request.inputs['variable'][0].data,
-            domain=CORDEX_DOMAIN_MAP[request.inputs['domain'][0].data],
-            start_year=request.inputs['start_year'][0].data,
-            end_year=request.inputs['end_year'][0].data,
+            domain=CORDEX_DOMAIN_MAP[request.inputs['region'][0].data],
+            start_year=request.inputs['year'][0].data,
+            end_year=request.inputs['year'][0].data,
         )
         if not nc_file:
             raise Exception("Could not find CORDEX file.")
