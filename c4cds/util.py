@@ -12,6 +12,15 @@ import logging
 LOGGER = logging.getLogger('PYWPS')
 
 
+def parse_time_period(filepath):
+    time_period = os.path.basename(filepath).split('_')[-1]
+    time_period = time_period[:-3]  # skip extension .nc
+    start, end = time_period.split('-')
+    start_year = int(start[:4])
+    end_year = int(end[:4])
+    return start_year, end_year
+
+
 def get_variable_name(input_file):
     return os.path.basename(input_file).split("_")[0]
 

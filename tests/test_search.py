@@ -1,8 +1,17 @@
 import pytest
 
 from c4cds.search import Search, CMIP5, CORDEX
+from c4cds.search import filter_by_year
 
 from .common import ARCHIVE_BASE
+
+
+def test_filter_by_year():
+    results = filter_by_year(
+        ['/path/to/tas_Amon_HadGEM2-ES_historical_r1i1p1_196001-196912.nc',
+         '/path/to/tas_Amon_HadGEM2-ES_historical_r1i1p1_197001-197912.nc'],
+        1970, 1970)
+    assert len(results) == 1
 
 
 def test_cmip5_search_pattern():

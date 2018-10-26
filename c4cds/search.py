@@ -2,6 +2,8 @@ import os
 import tempfile
 import glob
 
+from c4cds import util
+
 import logging
 LOGGER = logging.getLogger('PYWPS')
 
@@ -68,34 +70,49 @@ class CORDEX(Project):
         return pattern
 
 
+def filter_by_year(files, start_year=None, end_year=None):
+    result = []
+    for filepath in files:
+        f_start_year, f_end_year = util.parse_time_period(filepath)
+        if end_year is not None and end_year < f_start_year:
+            continue
+        elif start_year is not None and start_year > f_end_year:
+            continue
+        else:
+            result.append(filepath)
+    return result
+
+
 class Search():
     def __init__(self, archive_base):
         self.archive_base = archive_base or '/opt/data'
 
-    def _search(self, pattern):
+    def _search(self, pattern, start_year=None, end_year=None):
         # run pattern search
         LOGGER.info("search pattern: {}".format(pattern))
         files = glob.glob(pattern)
         if files:
-            LOGGER.info('found cmip5 files: {}', len(files))
+            files = filter_by_year(files, start_year, end_year)
+            LOGGER.info('found files: {}', len(files))
+        if files:
             result = files[0]
-        else:
-            LOGGER.warn("no cmip5 files found.")
+        if not files:
+            LOGGER.warn("no files found.")
             result = None
         return result
 
     def search_cmip5(self, model=None, experiment=None, ensemble=None, variable=None,
-                     start_year=1980, end_year=1981):
+                     start_year=None, end_year=None):
         cmip5 = CMIP5(self.archive_base)
         pattern = cmip5.search_pattern(
             experiment=experiment,
             ensemble=ensemble,
             model=model,
             variable=variable)
-        return self._search(pattern)
+        return self._search(pattern, start_year, end_year)
 
     def search_cordex(self, model=None, experiment=None, ensemble=None, variable=None, domain=None,
-                      start_year=1980, end_year=1981):
+                      start_year=None, end_year=None):
         cordex = CORDEX(self.archive_base)
         # cordex search pattern
         pattern = cordex.search_pattern(
@@ -104,4 +121,4 @@ class Search():
             ensemble,
             model,
             variable)
-        return self._search(pattern)
+        return self._search(pattern, start_year, end_year)

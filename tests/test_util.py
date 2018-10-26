@@ -5,6 +5,18 @@ from c4cds import util
 from .common import CORDEX_NC, CMIP5_NC, ARCHIVE_BASE
 
 
+def test_parse_time_period():
+    assert util.parse_time_period(
+        '/path/to/tas_Amon_HadGEM2-ES_historical_r1i1p1_195912-198411.nc'
+    ) == (1959, 1984)
+    assert util.parse_time_period(
+        '/path/to/tasmin_AFR-44i_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_mon_199001-199012.nc'
+    ) == (1990, 1990)
+    assert util.parse_time_period(
+        '/path/to/tasmin_AFR-44i_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_day_19900101-19901231.nc'
+    ) == (1990, 1990)
+
+
 def test_get_variable_name():
     assert util.get_variable_name(CORDEX_NC) == 'tasmin'
     assert util.get_variable_name(CMIP5_NC) == 'tas'
