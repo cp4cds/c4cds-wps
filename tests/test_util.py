@@ -5,6 +5,11 @@ from c4cds import util
 from .common import CORDEX_NC, CMIP5_NC, ARCHIVE_BASE
 
 
+def test_cordex_country_drs_filename():
+    assert util.cordex_country_drs_filename(CORDEX_NC, country='Egypt') == \
+        'tasmin_AFR-44i_Egypt_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_mon_199001-199012.nc'
+
+
 def test_parse_time_period():
     assert util.parse_time_period(
         '/path/to/tas_Amon_HadGEM2-ES_historical_r1i1p1_195912-198411.nc'
