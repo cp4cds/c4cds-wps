@@ -3,11 +3,12 @@ import os
 from pywps import Process
 from pywps import LiteralInput
 from pywps import ComplexOutput
-from pywps import FORMATS
+from pywps import FORMATS, Format
 from pywps import configuration
 from pywps.app.Common import Metadata
 
 from c4cds.regridder import Regridder, GLOBAL
+from c4cds.plotter import Plotter
 from c4cds.search import Search
 from c4cds.ncdump import ncdump
 
@@ -43,6 +44,10 @@ class CMIP5Regridder(Process):
                           abstract='ncdump of regridded Dataset.',
                           as_reference=True,
                           supported_formats=[FORMATS.TEXT]),
+            ComplexOutput('preview', 'Preview',
+                          abstract='Preview of subsetted Dataset.',
+                          as_reference=True,
+                          supported_formats=[Format('image/png')]),
         ]
 
         super(CMIP5Regridder, self).__init__(
@@ -79,13 +84,26 @@ class CMIP5Regridder(Process):
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
             output_dir=os.path.join(self.workdir, 'outputs')
         )
-        output_file = regridder.regrid(input_file=nc_file, domain_type=GLOBAL)
-        response.outputs['output'].file = output_file
-        response.update_status('regridding done.', 80)
+        regridded_file = regridder.regrid(input_file=nc_file, domain_type=GLOBAL)
+        response.outputs['output'].file = regridded_file
+        response.update_status('regridding done.', 60)
+        # plot preview
+        title = "{} {} {}".format(
+            request.inputs['model'][0].data,
+            request.inputs['experiment'][0].data,
+            request.inputs['variable'][0].data,
+            # request.inputs['year'][0].data,
+        )
+        plotter = Plotter(
+            output_dir=os.path.join(self.workdir, 'out_plot')
+        )
+        preview_file = plotter.plot_preview(regridded_file, title)
+        response.outputs['preview'].file = preview_file
+        response.update_status('plot done.', 80)
         # run ncdump
         with open(os.path.join(self.workdir, "nc_dump.txt"), 'w') as fp:
             response.outputs['ncdump'].file = fp.name
-            fp.writelines(ncdump(output_file))
+            fp.writelines(ncdump(regridded_file))
             response.update_status('ncdump done.', 90)
         # done
         response.update_status("done.", 100)
