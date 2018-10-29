@@ -12,6 +12,10 @@ import logging
 LOGGER = logging.getLogger('PYWPS')
 
 
+def guess_variable_name(filename):
+    return os.path.basename(filename).split('_')[0]
+
+
 def cordex_country_drs_filename(filename, country):
     name_parts = os.path.basename(filename).split('_')
     # split after domain
