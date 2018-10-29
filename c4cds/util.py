@@ -12,6 +12,15 @@ import logging
 LOGGER = logging.getLogger('PYWPS')
 
 
+def cordex_country_drs_filename(filename, country):
+    name_parts = os.path.basename(filename).split('_')
+    # split after domain
+    first_part = '_'.join(name_parts[:2])
+    second_part = '_'.join(name_parts[2:])
+    new_name = "{}_{}_{}".format(first_part, country, second_part)
+    return new_name
+
+
 def parse_time_period(filepath):
     time_period = os.path.basename(filepath).split('_')[-1]
     time_period = time_period[:-3]  # skip extension .nc

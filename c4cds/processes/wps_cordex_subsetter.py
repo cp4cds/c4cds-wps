@@ -8,11 +8,12 @@ from pywps import configuration
 from pywps.app.Common import Metadata
 
 from c4cds.regridder import Regridder, REGIONAL
+from c4cds.subsetter import Subsetter
 from c4cds.search import Search
 from c4cds.ncdump import ncdump
 
 CORDEX_DOMAIN_MAP = {
-    'Cairo': 'AFR-44i',
+    'Egypt': 'AFR-44i',
     'UK': 'EUR-44i',
     'France': 'EUR-44i',
     'Germany': 'EUR-44i',
@@ -22,11 +23,11 @@ CORDEX_DOMAIN_MAP = {
 class CordexSubsetter(Process):
     def __init__(self):
         inputs = [
-            LiteralInput('region', 'Region',
+            LiteralInput('country', 'Country',
                          abstract='Choose a Country like UK.',
                          data_type='string',
-                         allowed_values=['Cairo', 'UK', 'France', 'Germany'],
-                         default='Cairo'),
+                         allowed_values=['Egypt', 'UK', 'France', 'Germany'],
+                         default='Egypt'),
             LiteralInput('model', 'Model',
                          abstract='Choose a model like MOHC-HadRM3P.',
                          data_type='string',
@@ -79,7 +80,7 @@ class CordexSubsetter(Process):
             model=request.inputs['model'][0].data,
             experiment=request.inputs['experiment'][0].data,
             variable=request.inputs['variable'][0].data,
-            domain=CORDEX_DOMAIN_MAP[request.inputs['region'][0].data],
+            domain=CORDEX_DOMAIN_MAP[request.inputs['country'][0].data],
             start_year=request.inputs['year'][0].data,
             end_year=request.inputs['year'][0].data,
         )
@@ -90,15 +91,23 @@ class CordexSubsetter(Process):
         regridder = Regridder(
             archive_base=configuration.get_config_value("data", "cordex_archive_root"),
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
-            output_dir=os.path.join(self.workdir, 'outputs')
+            output_dir=os.path.join(self.workdir, 'out_regrid')
         )
-        output_file = regridder.regrid(input_file=nc_file, domain_type=REGIONAL)
-        response.outputs['output'].file = output_file
+        regridded_file = regridder.regrid(input_file=nc_file, domain_type=REGIONAL)
         response.update_status('regridding done.', 60)
+        # subset by country
+        subsetter = Subsetter(
+            output_dir=os.path.join(self.workdir, 'out_subset')
+        )
+        subsetted_file = subsetter.subset_by_country(
+            regridded_file,
+            country=request.inputs['country'][0].data)
+        response.outputs['output'].file = subsetted_file
+        response.update_status('subsetting done.', 80)
         # run ncdump
         with open(os.path.join(self.workdir, "nc_dump.txt"), 'w') as fp:
             response.outputs['ncdump'].file = fp.name
-            fp.writelines(ncdump(output_file))
+            fp.writelines(ncdump(subsetted_file))
             response.update_status('ncdump done.', 90)
         # done
         response.update_status("done.", 100)
