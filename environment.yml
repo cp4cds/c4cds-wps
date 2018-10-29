@@ -14,5 +14,9 @@ dependencies:
 - python-cdo
 - numpy
 - netcdf4=1.4.1
+# plot
+- cartopy
+- matplotlib
 # tests
 - pytest
+- flake8

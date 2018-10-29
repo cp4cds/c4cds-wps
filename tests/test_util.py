@@ -5,6 +5,11 @@ from c4cds import util
 from .common import CORDEX_NC, CMIP5_NC, ARCHIVE_BASE
 
 
+def test_guess_variable_name():
+    assert util.guess_variable_name(CORDEX_NC) == 'tasmin'
+    assert util.guess_variable_name(CMIP5_NC) == 'tas'
+
+
 def test_cordex_country_drs_filename():
     assert util.cordex_country_drs_filename(CORDEX_NC, country='Egypt') == \
         'tasmin_AFR-44i_Egypt_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_mon_199001-199012.nc'
