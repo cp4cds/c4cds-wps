@@ -16,17 +16,18 @@ class Project():
         raise NotImplementedError
 
 
-class CMIP5(Project):
+class C3S_CMIP5(Project):
     def search_pattern(self, experiment=None, ensemble=None, model=None, variable=None):
         # defaults
         model = model or 'HadGEM2-ES'
         experiment = experiment or 'historical'
         ensemble = ensemble or 'r1i1p1'
         variable = variable or 'tas'
+        version = '*'
         # "/opt/data/cmip5/output1/MOHC/HadGEM2-ES/historical/day/atmos/day/r1i1p1/v20120716/tas/
         pattern = os.path.join(
             self.archive_base,
-            'cmip5',
+            'c3s-cmip5',
             '*',
             '*',
             model,
@@ -35,8 +36,8 @@ class CMIP5(Project):
             'atmos',
             '*',
             ensemble,
-            '*',
             variable,
+            version,
             '*',
         )
         return pattern
@@ -103,7 +104,7 @@ class Search():
 
     def search_cmip5(self, model=None, experiment=None, ensemble=None, variable=None,
                      start_year=None, end_year=None):
-        cmip5 = CMIP5(self.archive_base)
+        cmip5 = C3S_CMIP5(self.archive_base)
         pattern = cmip5.search_pattern(
             experiment=experiment,
             ensemble=ensemble,

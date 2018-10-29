@@ -17,19 +17,21 @@ class CMIP5Regridder(Process):
     def __init__(self):
         inputs = [
             LiteralInput('model', 'Model',
-                         abstract='Choose a model like MPI-ESM-LR.',
+                         abstract='Choose a model like HadGEM2-ES.',
                          data_type='string',
-                         allowed_values=['HadGEM2-ES', 'MPI-ESM-LR', 'MPI-ESM-MR'],
+                         allowed_values=['HadGEM2-ES',
+                                         'IPSL-CM5A-MR',
+                                         'MPI-ESM-MR'],
                          default='HadGEM2-ES'),
             LiteralInput('experiment', 'Experiment',
                          abstract='Choose an experiment like historical.',
                          data_type='string',
-                         allowed_values=['historical', 'rcp26', 'rcp45', 'rcp85'],
+                         allowed_values=['historical', 'rcp26'],
                          default='historical'),
             LiteralInput('variable', 'Variable',
                          abstract='Choose a variable like tas.',
                          data_type='string',
-                         allowed_values=['tas', 'tasmax', 'tasmin'],
+                         allowed_values=['pr', 'tas', 'tasmax', 'tasmin'],
                          default='tas'),
             # LiteralInput('year', 'Match year', data_type='integer',
             #              abstract='File should match this year.',
@@ -67,7 +69,7 @@ class CMIP5Regridder(Process):
         )
 
     def _handler(self, request, response):
-        search = Search(configuration.get_config_value("data", "cmip5_archive_root"))
+        search = Search(configuration.get_config_value("data", "c3s_cmip5_archive_root"))
         nc_file = search.search_cmip5(
             model=request.inputs['model'][0].data,
             experiment=request.inputs['experiment'][0].data,
@@ -80,7 +82,7 @@ class CMIP5Regridder(Process):
         response.update_status('search done.', 10)
         # regridding
         regridder = Regridder(
-            archive_base=configuration.get_config_value("data", "cmip5_archive_root"),
+            archive_base=configuration.get_config_value("data", "c3s_cmip5_archive_root"),
             grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
             output_dir=os.path.join(self.workdir, 'outputs')
         )

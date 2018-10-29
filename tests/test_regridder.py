@@ -4,7 +4,7 @@ import os
 
 from c4cds.regridder import Regridder, GLOBAL, REGIONAL
 
-from .common import CMIP5_NC, CORDEX_NC, ARCHIVE_BASE
+from .common import C3S_CMIP5_NC, CORDEX_NC, ARCHIVE_BASE
 
 
 def test_create_output_dir():
@@ -16,7 +16,7 @@ def test_create_output_dir():
 def test_get_grid_definition_file():
     regridder = Regridder()
     assert 'grid_files/ll1deg_grid.nc' in regridder.get_grid_definition_file(
-        CMIP5_NC, domain_type=GLOBAL)
+        C3S_CMIP5_NC, domain_type=GLOBAL)
     assert 'grid_files/ll0.5deg_AFR-44i.nc' in regridder.get_grid_definition_file(
         CORDEX_NC, domain_type=REGIONAL)
 
@@ -33,10 +33,10 @@ def test_validate_regridded_file_cordex():
     regridder.validate_regridded_file(CORDEX_NC, REGIONAL)
 
 
-@pytest.mark.skip(reason='not working')
+@pytest.mark.skip(reason='no regridded file')
 def test_validate_regridded_file_cmip5():
     regridder = Regridder()
-    regridder.validate_regridded_file(CMIP5_NC, GLOBAL)
+    regridder.validate_regridded_file(C3S_CMIP5_NC, GLOBAL)
 
 
 @pytest.mark.data
@@ -49,5 +49,5 @@ def test_regrid_cordex():
 @pytest.mark.data
 def test_regrid_cmip5():
     regridder = Regridder(archive_base=ARCHIVE_BASE)
-    assert regridder.regrid(CMIP5_NC, GLOBAL) == \
-        '/tmp/out/1_deg/tas_day_HadGEM2-ES_historical_r1i1p1_19791201-19891130.nc'
+    assert regridder.regrid(C3S_CMIP5_NC, GLOBAL) == \
+        '/tmp/out/1_deg/tas_Amon_HadGEM2-ES_historical_r1i1p1_185912-188411.nc'

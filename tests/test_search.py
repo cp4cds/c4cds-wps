@@ -1,6 +1,6 @@
 import pytest
 
-from c4cds.search import Search, CMIP5, CORDEX
+from c4cds.search import Search, C3S_CMIP5, CORDEX
 from c4cds.search import filter_by_year
 
 from .common import ARCHIVE_BASE
@@ -15,13 +15,13 @@ def test_filter_by_year():
 
 
 def test_cmip5_search_pattern():
-    cmip5 = CMIP5(ARCHIVE_BASE)
+    cmip5 = C3S_CMIP5(ARCHIVE_BASE)
     assert cmip5.search_pattern(
         model='HadGEM2-ES',
         experiment='historical',
         ensemble='r1i1p1',
         variable='tas',
-    ) == '/opt/data/cmip5/*/*/HadGEM2-ES/historical/mon/atmos/*/r1i1p1/*/tas/*'
+    ) == '/opt/data/c3s-cmip5/*/*/HadGEM2-ES/historical/mon/atmos/*/r1i1p1/tas/*/*'
 
 
 @pytest.mark.data
