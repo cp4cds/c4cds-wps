@@ -84,6 +84,3 @@ testdata.json
 *.a
 *.mod
 *.out
-
-# Testdata
-*.nc

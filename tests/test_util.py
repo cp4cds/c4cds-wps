@@ -2,7 +2,7 @@ import pytest
 
 from c4cds import util
 
-from .common import CORDEX_NC, C3S_CMIP5_NC, ARCHIVE_BASE
+from .common import CORDEX_NC, C3S_CMIP5_NC, ARCHIVE_BASE, resource_ok
 
 
 def test_guess_variable_name():
@@ -32,7 +32,8 @@ def test_get_variable_name():
     assert util.get_variable_name(C3S_CMIP5_NC) == 'tas'
 
 
-@pytest.mark.data
+@pytest.mark.skipif(not resource_ok(CORDEX_NC),
+                    reason="Test data not available.")
 def test_convert_to_netcdf3():
     assert util.convert_to_netcdf3(CORDEX_NC, output_file='/tmp/test.nc') == '/tmp/test.nc'
 

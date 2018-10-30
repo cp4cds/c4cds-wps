@@ -10,7 +10,7 @@ LOGGER = logging.getLogger('PYWPS')
 
 class Project():
     def __init__(self, archive_base):
-        self.archive_base = archive_base or '/opt/data'
+        self.archive_base = archive_base or '/data'
 
     def search_pattern():
         raise NotImplementedError
@@ -86,7 +86,7 @@ def filter_by_year(files, start_year=None, end_year=None):
 
 class Search():
     def __init__(self, archive_base):
-        self.archive_base = archive_base or '/opt/data'
+        self.archive_base = archive_base or '/data'
 
     def _search(self, pattern, start_year=None, end_year=None):
         # run pattern search

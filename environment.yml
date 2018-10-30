@@ -3,6 +3,8 @@ channels:
 - birdhouse
 - conda-forge
 dependencies:
+- six
+# pywps
 - pywps=4.1
 - jinja2
 - click
@@ -12,6 +14,7 @@ dependencies:
 - pynco
 - cdo=1.9.4
 - python-cdo
+- xarray
 - numpy
 - netcdf4=1.4.1
 # plot
