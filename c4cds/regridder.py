@@ -16,8 +16,8 @@ LOGGER = logging.getLogger('PYWPS')
 
 class Regridder(object):
     def __init__(self, output_dir=None, archive_base=None, grid_files_dir=None):
-        self.output_base_dir = output_dir or '/tmp/out'
-        self.archive_base = archive_base or '/tmp/data'
+        self.output_base_dir = output_dir or os.path.join(tempfile.gettempdir(), 'out_regrid')
+        self.archive_base = archive_base or '/data'
         self.grid_files_dir = grid_files_dir or os.path.join(self.archive_base, 'grid_files')
 
     def regrid(self, input_file, domain_type):

@@ -1,0 +1,13 @@
+This is a placeholder file.
+
+replace:
+
+tas_Amon_HadGEM2-ES_historical_r1i1p1_185912-188411.nc
+
+by:
+
+http://cp4cds-data1.ceda.ac.uk/thredds/fileServer/esg_c3s-cmip5/output1/MOHC/HadGEM2-ES/historical/mon/atmos/Amon/r1i1p1/tas/v20120928/tas_Amon_HadGEM2-ES_historical_r1i1p1_185912-188411.nc
+
+You can download it with wget and an ESGF certificate:
+
+    $ wget --certificate cert.pem --ca-certificate cert.pem --private-key cert.pem URL
