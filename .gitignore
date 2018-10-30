@@ -4,7 +4,7 @@
 # Docker
 #Dockerfile
 
-# PyWPS 
+# PyWPS
 custom.cfg
 .custom.cfg
 *.pid
@@ -84,3 +84,6 @@ testdata.json
 *.a
 *.mod
 *.out
+
+# Testdata
+*.nc

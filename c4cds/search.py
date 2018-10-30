@@ -98,7 +98,7 @@ class Search():
         if files:
             result = files[0]
         if not files:
-            LOGGER.warn("no files found.")
+            LOGGER.warning("no files found.")
             result = None
         return result
 

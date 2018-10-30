@@ -14,25 +14,25 @@ def test_filter_by_year():
     assert len(results) == 1
 
 
-def test_cmip5_search_pattern():
+def test_c3s_cmip5_search_pattern():
     cmip5 = C3S_CMIP5(ARCHIVE_BASE)
     assert cmip5.search_pattern(
         model='HadGEM2-ES',
         experiment='historical',
         ensemble='r1i1p1',
         variable='tas',
-    ) == '/opt/data/c3s-cmip5/*/*/HadGEM2-ES/historical/mon/atmos/*/r1i1p1/tas/*/*'
+    ) == ARCHIVE_BASE + '/c3s-cmip5/*/*/HadGEM2-ES/historical/mon/atmos/*/r1i1p1/tas/*/*'
 
 
 @pytest.mark.data
-def test_search_cmip5():
+def test_search_c3s_cmip5():
     search = Search(ARCHIVE_BASE)
-    assert 'tas_Amon_HadGEM2-ES_historical_r1i1p1_195912-198411.nc' in search.search_cmip5(
+    assert 'tas_Amon_HadGEM2-ES_historical_r1i1p1_185912-188411.nc' in search.search_cmip5(
         model='HadGEM2-ES',
         experiment='historical',
         variable='tas',
-        start_year=1971,
-        end_year=1980
+        start_year=1860,
+        end_year=1861
     )
 
 
@@ -44,7 +44,7 @@ def test_cordex_search_pattern():
         ensemble='r1i1p1',
         model='MOHC-HadRM3P',
         variable='tasmin'
-    ) == '/opt/data/cordex/*/AFR-44i/*/*/evaluation/r1i1p1/MOHC-HadRM3P/*/mon/tasmin/*/*'
+    ) == ARCHIVE_BASE + '/cordex/*/AFR-44i/*/*/evaluation/r1i1p1/MOHC-HadRM3P/*/mon/tasmin/*/*'
 
 
 @pytest.mark.data
