@@ -7,7 +7,7 @@ from pywps import FORMATS, Format
 from pywps import configuration
 from pywps.app.Common import Metadata
 
-from c4cds.regridder import Regridder, REGIONAL
+# from c4cds.regridder import Regridder, REGIONAL
 from c4cds.subsetter import Subsetter
 from c4cds.plotter import Plotter
 from c4cds.search import Search
@@ -100,19 +100,19 @@ class CordexSubsetter(Process):
             raise Exception("Could not find CORDEX file.")
         response.update_status('search done.', 10)
         # regridding
-        regridder = Regridder(
-            archive_base=configuration.get_config_value("data", "cordex_archive_root"),
-            grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
-            output_dir=os.path.join(self.workdir, 'out_regrid')
-        )
-        regridded_file = regridder.regrid(input_file=nc_file, domain_type=REGIONAL)
-        response.update_status('regridding done.', 60)
+        # regridder = Regridder(
+        #     archive_base=configuration.get_config_value("data", "cordex_archive_root"),
+        #     grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
+        #     output_dir=os.path.join(self.workdir, 'out_regrid')
+        # )
+        # regridded_file = regridder.regrid(input_file=nc_file, domain_type=REGIONAL)
+        # response.update_status('regridding done.', 60)
         # subset by country
         subsetter = Subsetter(
             output_dir=os.path.join(self.workdir, 'out_subset')
         )
         subsetted_file = subsetter.subset_by_country(
-            regridded_file,
+            nc_file,
             country=request.inputs['country'][0].data)
         response.outputs['output'].file = subsetted_file
         response.update_status('subsetting done.', 70)

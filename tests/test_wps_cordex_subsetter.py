@@ -3,13 +3,15 @@ import pytest
 from pywps import Service
 from pywps.tests import assert_response_success
 
-from . common import client_for
+from . common import client_for, resource_file
 from c4cds.processes.wps_cordex_subsetter import CordexSubsetter
 
 
-@pytest.mark.data
+cfgfiles = [resource_file('test.cfg'), ]
+
+
 def test_wps_cordex_subsetter():
-    client = client_for(Service(processes=[CordexSubsetter()]))
+    client = client_for(Service(processes=[CordexSubsetter()], cfgfiles=cfgfiles))
     datainputs = "domain=Egypt"
     resp = client.get(
         service='WPS', request='Execute', version='1.0.0', identifier='cordex_subsetter',

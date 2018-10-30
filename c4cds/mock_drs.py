@@ -21,7 +21,7 @@ class MockDRS(object):
                  "time_range", "extension", "_archive_base"]
 
     def __init__(self, fpath, archive_base=None):
-        self._archive_base = archive_base or '/tmp/data'
+        self._archive_base = archive_base or '/data'
         LOGGER.info("Analysing DRS from: {}".format(fpath))
         self._interpret(fpath)
 
