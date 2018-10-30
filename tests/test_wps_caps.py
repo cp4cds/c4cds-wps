@@ -15,4 +15,4 @@ def test_wps_caps():
     assert sorted(names.split()) == [
         'cmip5_regridder',
         'cordex_subsetter',
-        'sleep']
+    ]

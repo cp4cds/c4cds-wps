@@ -7,23 +7,20 @@ Processes
     :local:
     :depth: 1
 
-Sleep
------
+.. _cmip5_regridder:
 
-.. autoprocess:: c4cds.processes.wps_sleep.Sleep
+CMIP5 Regridder
+---------------
+
+.. autoprocess:: c4cds.processes.wps_cmip5_regridder.CMIP5Regridder
    :docstring:
    :skiplines: 1
 
-Wordcounter
------------
+.. _cordex_subsetter:
 
-.. autoprocess:: c4cds.processes.wps_wordcounter.WordCounter
-   :docstring:
-   :skiplines: 1
+CORDEX Subsetter
+---------------
 
-InOut
------
-
-.. autoprocess:: c4cds.processes.wps_inout.InOut
-   :docstring:
-   :skiplines: 1
+.. autoprocess:: c4cds.processes.wps_cordex_subsetter.CordexSubsetter
+  :docstring:
+  :skiplines: 1

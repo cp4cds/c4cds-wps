@@ -11,6 +11,7 @@ from c4cds.regridder import Regridder, GLOBAL
 from c4cds.plotter import Plotter
 from c4cds.search import Search
 from c4cds.ncdump import ncdump
+from c4cds import util
 
 
 class CMIP5Regridder(Process):
@@ -61,6 +62,12 @@ class CMIP5Regridder(Process):
             profile='',
             metadata=[
                 Metadata('CP4CDS Portal', 'https://cp4cds.github.io/'),
+                Metadata('Documentation',
+                         'https://c4cds-wps.readthedocs.io/en/latest/processes.html#cmip5_regridder',
+                         role=util.WPS_ROLE_DOC),
+                Metadata('Media',
+                         'https://c4cds-wps.readthedocs.io/en/latest/_static/media/cmip5_regridder_thumbnail.png',
+                         role=util.WPS_ROLE_MEDIA),
             ],
             inputs=inputs,
             outputs=outputs,

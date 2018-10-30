@@ -12,6 +12,7 @@ from c4cds.subsetter import Subsetter
 from c4cds.plotter import Plotter
 from c4cds.search import Search
 from c4cds.ncdump import ncdump
+from c4cds import util
 
 CORDEX_DOMAIN_MAP = {
     'Egypt': 'AFR-44i',
@@ -72,6 +73,12 @@ class CordexSubsetter(Process):
             abstract='CORDEX Subsetter using CDO.',
             metadata=[
                 Metadata('CP4CDS Portal', 'https://cp4cds.github.io/'),
+                Metadata('Documentation',
+                         'https://c4cds-wps.readthedocs.io/en/latest/processes.html#cordex_subsetter',
+                         role=util.WPS_ROLE_DOC),
+                Metadata('Media',
+                         'https://c4cds-wps.readthedocs.io/en/latest/_static/media/cordex_subsetter_thumbnail.png',
+                         role=util.WPS_ROLE_MEDIA),
             ],
             inputs=inputs,
             outputs=outputs,
