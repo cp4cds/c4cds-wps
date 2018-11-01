@@ -94,7 +94,6 @@ class CMIP5Regridder(Process):
         # regridding
         regridder = Regridder(
             archive_base=configuration.get_config_value("data", "c3s_cmip5_archive_root"),
-            grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
             output_dir=os.path.join(self.workdir, 'outputs')
         )
         regridded_file = regridder.regrid(input_file=nc_file, domain_type=GLOBAL)

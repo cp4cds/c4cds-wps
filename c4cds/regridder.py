@@ -10,15 +10,16 @@ from c4cds import util
 GLOBAL = 'global'
 REGIONAL = 'regional'
 
+GRID_FILES_DIR = os.path.join(os.path.dirname(__file__), 'resources', 'grid_files')
+
 import logging
 LOGGER = logging.getLogger('PYWPS')
 
 
 class Regridder(object):
-    def __init__(self, output_dir=None, archive_base=None, grid_files_dir=None):
+    def __init__(self, output_dir=None, archive_base=None):
         self.output_base_dir = output_dir or os.path.join(tempfile.gettempdir(), 'out_regrid')
         self.archive_base = archive_base or '/data'
-        self.grid_files_dir = grid_files_dir or os.path.join(self.archive_base, 'grid_files')
 
     def regrid(self, input_file, domain_type):
         # Define some rules regarding the inputs and how they map to information needed by this process
@@ -69,10 +70,10 @@ class Regridder(object):
 
     def get_grid_definition_file(self, input_file, domain_type=None):
         if domain_type == GLOBAL:
-            grid_definition_file = os.path.join(self.grid_files_dir, 'll1deg_grid.nc')
+            grid_definition_file = os.path.join(GRID_FILES_DIR, 'll1deg_grid.nc')
         else:
             regional_domain = os.path.basename(input_file).split("_")[1]
-            grid_definition_file = os.path.join(self.grid_files_dir, 'll0.5deg_{}.nc'.format(regional_domain))
+            grid_definition_file = os.path.join(GRID_FILES_DIR, 'll0.5deg_{}.nc'.format(regional_domain))
         return grid_definition_file
 
     def validate_input_grid(self, input_file):
