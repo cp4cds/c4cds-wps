@@ -1,7 +1,7 @@
 # vim:set ft=dockerfile:
 FROM continuumio/miniconda3
 MAINTAINER https://github.com/cp4cds/c4cds-wps
-LABEL Description="c4cds-wps WPS" Vendor="Birdhouse" Version="0.1.0"
+LABEL Description="c4cds-wps WPS" Vendor="Birdhouse" Version="0.2.0"
 
 # Update Debian system
 RUN apt-get update && apt-get install -y \
