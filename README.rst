@@ -21,7 +21,7 @@ c4cds-wps
 c4cds-wps (the bird)
   *c4cds-wps is a bird ...*
 
-A WPS Compute Service for Climate Data Store
+A WPS Compute Service for the `Copernicus Climate Data Store`_
 
 * Free software: Apache Software License 2.0
 * Documentation: https://c4cds-wps.readthedocs.io.
@@ -33,3 +33,4 @@ This package was created with Cookiecutter_ and the `bird-house/cookiecutter-bir
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`bird-house/cookiecutter-birdhouse`: https://github.com/bird-house/cookiecutter-birdhouse
+.. _`Copernicus Climate Data Store`: https://cds.climate.copernicus.eu/

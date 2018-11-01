@@ -30,7 +30,7 @@ class CMIP5Regridder(Process):
                          allowed_values=['historical', 'rcp26'],
                          default='historical'),
             LiteralInput('variable', 'Variable',
-                         abstract='Choose a variable like tas.',
+                         abstract='Choose a variable like tas (temperatue at surface).',
                          data_type='string',
                          allowed_values=['pr', 'tas', 'tasmax', 'tasmin'],
                          default='tas'),
@@ -58,10 +58,14 @@ class CMIP5Regridder(Process):
             identifier='cmip5_regridder',
             version='1.0',
             title='CMIP5 Regridder',
-            abstract='CMIP5 Regridder using CDO.',
+            abstract='CMIP5 Regridder working on the Copernicus C3S CMIP5 data archive. '
+                     'The selected CMIP5 file is regridded to the standard lat/lon 1 degree grid (360x180) '
+                     'using the CDO bi-linear "remapbil" remapper. '
+                     'Check the available data in the CP4CDS Quality Control App.',
             profile='',
             metadata=[
                 Metadata('CP4CDS Portal', 'https://cp4cds.github.io/'),
+                Metadata('CP4CDS Quality Control', 'https://cp4cds-qcapp.ceda.ac.uk/'),
                 Metadata('Documentation',
                          'https://c4cds-wps.readthedocs.io/en/latest/processes.html#cmip5_regridder',
                          role=util.WPS_ROLE_DOC),

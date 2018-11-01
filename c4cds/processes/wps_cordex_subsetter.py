@@ -70,7 +70,9 @@ class CordexSubsetter(Process):
             identifier='cordex_subsetter',
             version='1.0',
             title='CORDEX Subsetter',
-            abstract='CORDEX Subsetter using CDO.',
+            abstract='CORDEX Subsetter working on the Copernicus C3S CORDEX archive. '
+                     'The selected CORDEX file is subsetted by the bounding-box of a Country '
+                     'using the CDO "sellonlatbox" operator.',
             metadata=[
                 Metadata('CP4CDS Portal', 'https://cp4cds.github.io/'),
                 Metadata('Documentation',
