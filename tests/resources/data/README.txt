@@ -16,7 +16,3 @@ http://cp4cds-data1.ceda.ac.uk/thredds/fileServer/esg_c3s-cmip5/output1/MOHC/Had
 This file is subsetted by the time-range 1860/01-1860/12 using cdo:
 
      $ cdo seltimestep,2,3,4,5,6,7,8,9,10,11,12,13 infile outfile
-
-## Grid Files
-
-See Readme in `grid_files/`.

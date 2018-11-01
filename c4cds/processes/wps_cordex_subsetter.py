@@ -104,7 +104,6 @@ class CordexSubsetter(Process):
         # regridding
         # regridder = Regridder(
         #     archive_base=configuration.get_config_value("data", "cordex_archive_root"),
-        #     grid_files_dir=configuration.get_config_value("data", "grid_files_dir"),
         #     output_dir=os.path.join(self.workdir, 'out_regrid')
         # )
         # regridded_file = regridder.regrid(input_file=nc_file, domain_type=REGIONAL)
