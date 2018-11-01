@@ -7,12 +7,12 @@ Installation
     :local:
     :depth: 1
 
-Install from Conda
-------------------
-
-.. warning::
-
-   TODO: Prepare Conda package.
+.. Install from Conda
+.. ------------------
+..
+.. .. warning::
+..
+..    TODO: Prepare Conda package.
 
 Install from GitHub
 -------------------
@@ -88,14 +88,14 @@ You can also use the ``Makefile`` to start and stop the service:
   $ make stop
 
 
-Run c4cds-wps as Docker container
----------------------------------
-
-You can also run c4cds-wps as a Docker container.
-
-.. warning::
-
-  TODO: Describe Docker container support.
+.. Run c4cds-wps as Docker container
+.. ---------------------------------
+..
+.. You can also run c4cds-wps as a Docker container.
+..
+.. .. warning::
+..
+..   TODO: Describe Docker container support.
 
 Use Ansible to deploy c4cds-wps on your System
 ----------------------------------------------

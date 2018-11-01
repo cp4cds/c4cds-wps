@@ -38,6 +38,12 @@ For example change the hostname (*demo.org*) and logging level:
    [logging]
    level = DEBUG
 
+   [data]
+   c3s_cmip5_archive_root = /data/C3S_CMIP5
+   cordex_archive_root = /data/CORDEX
+
+.. NOTE:: You need to configure the path to the local data archives for C3S_CMIP5 and CORDEX.
+
 Start the service with your custom configuration:
 
 .. code-block:: sh
