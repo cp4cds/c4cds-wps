@@ -12,11 +12,11 @@ dependencies:
 # regridder
 - nco
 - pynco
-- cdo=1.9.4
+- cdo
 - python-cdo
 - xarray
 - numpy
-- netcdf4=1.4.1
+- netcdf4
 # plot
 - cartopy
 - matplotlib
