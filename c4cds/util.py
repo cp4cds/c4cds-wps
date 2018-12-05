@@ -82,9 +82,19 @@ def get_grid_cell_area_variable(var_id, path, archive_base=None):
 
     d = map_to_drs(path, archive_base=archive_base)
     cell_areas_path = os.path.join(
-        archive_base, d.activity, d.product, d.institute,
-        d.model, d.experiment, "fx", d.modeling_realm, "fx", "r0i0p0",
-        "*", acm, acm_file_name)
+        archive_base,
+        # d.activity,
+        # d.product,
+        d.institute,
+        d.model,
+        d.experiment,
+        "fx",
+        d.modeling_realm,
+        "fx",
+        "r0i0p0",
+        "*",
+        acm,
+        acm_file_name)
 
     files = glob.glob(cell_areas_path)
     if not files:

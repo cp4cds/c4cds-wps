@@ -24,11 +24,10 @@ class C3S_CMIP5(Project):
         ensemble = ensemble or 'r1i1p1'
         variable = variable or 'tas'
         version = '*'
-        # "/opt/data/cmip5/output1/MOHC/HadGEM2-ES/historical/day/atmos/day/r1i1p1/v20120716/tas/
+        # "/opt/data/c3s-cmip5/output1/
+        #        MOHC/HadGEM2-ES/historical/day/atmos/day/r1i1p1/v20120716/tas/
         pattern = os.path.join(
             self.archive_base,
-            'c3s-cmip5',
-            '*',
             '*',
             model,
             experiment,
@@ -51,11 +50,10 @@ class CORDEX(Project):
         ensemble = ensemble or 'r1i1p1'
         variable = variable or 'tasmin'
         domain = domain or 'AFR-44i'
-        # /opt/data/cordex/output/AFR-44i/MOHC/ECMWF-ERAINT/evaluation/r1i1p1/MOHC-HadRM3P/v1/mon/tasmin/v20131211/
+        # /opt/data/cordex/output/
+        #      AFR-44i/MOHC/ECMWF-ERAINT/evaluation/r1i1p1/MOHC-HadRM3P/v1/mon/tasmin/v20131211/
         pattern = os.path.join(
             self.archive_base,
-            'cordex',
-            '*',
             domain,
             '*',
             '*',
