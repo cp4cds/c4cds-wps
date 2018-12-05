@@ -16,7 +16,7 @@ LOGGER = logging.getLogger('PYWPS')
 class MockDRS(object):
     "A simple object to hold a DRS structure mapping."
 
-    __slots__ = ["activity", "product", "institute", "model", "experiment", "frequency",
+    __slots__ = ["institute", "model", "experiment", "frequency",
                  "modeling_realm", "MIP_table", "ensemble_member", "variable_name", "version_number",
                  "time_range", "extension", "_archive_base"]
 

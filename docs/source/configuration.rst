@@ -3,6 +3,11 @@
 Configuration
 =============
 
+.. warning::
+
+  Please read the PyWPS documentation_ to find details about possible configuration options.
+
+
 Command-line options
 --------------------
 
@@ -39,8 +44,8 @@ For example change the hostname (*demo.org*) and logging level:
    level = DEBUG
 
    [data]
-   c3s_cmip5_archive_root = /data/C3S_CMIP5
-   cordex_archive_root = /data/CORDEX
+   c3s_cmip5_archive_root = /data/c3s-cmip5/output1
+   cordex_archive_root = /data/cordex/output
 
 .. NOTE:: You need to configure the path to the local data archives for C3S_CMIP5 and CORDEX.
 
@@ -53,3 +58,4 @@ Start the service with your custom configuration:
 
 
 .. _PyWPS: http://pywps.org/
+.. _documentation: https://pywps.readthedocs.io/en/master/configuration.html
