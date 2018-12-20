@@ -19,7 +19,7 @@ Install from GitHub
 
 Check out code from the c4cds-wps GitHub repo and start the installation:
 
-.. code-block:: sh
+.. code-block:: console
 
    $ git clone https://github.com/cp4cds/c4cds-wps.git
    $ cd c4cds
@@ -33,7 +33,7 @@ Check out code from the c4cds-wps GitHub repo and start the installation:
 The previous installation instructions assume you have Anaconda installed.
 We provide also a ``Makefile`` to run this installation without additional steps:
 
-.. code-block:: sh
+.. code-block:: console
 
    $ git clone https://github.com/cp4cds/c4cds-wps.git
    $ cd c4cds
@@ -45,7 +45,7 @@ Start c4cds-wps PyWPS service
 
 After successful installation you can start the service using the ``c4cds`` command-line.
 
-.. code-block:: sh
+.. code-block:: console
 
    $ c4cds --help # show help
    $ c4cds start  # start service with default configuration
@@ -64,14 +64,14 @@ http://localhost:5000/wps?service=WPS&version=1.0.0&request=GetCapabilities.
 
 You can find which process uses a given port using the following command (here for port 5000):
 
-.. code-block:: sh
+.. code-block:: console
 
    $ netstat -nlp | grep :5000
 
 
 Check the log files for errors:
 
-.. code-block:: sh
+.. code-block:: console
 
    $ tail -f  pywps.log
 
@@ -80,7 +80,7 @@ Check the log files for errors:
 
 You can also use the ``Makefile`` to start and stop the service:
 
-.. code-block:: sh
+.. code-block:: console
 
   $ make start
   $ make status
@@ -101,6 +101,53 @@ Use Ansible to deploy c4cds-wps on your System
 ----------------------------------------------
 
 Use the `Ansible playbook`_ for PyWPS to deploy c4cds-wps on your system.
+Here we show an example for remote deployment.
+
+Get the playbook:
+
+.. code-block:: console
+
+  $ git clone https://github.com/bird-house/ansible-wps-playbook.git
+  $ cd ansible-wps-playbook
+  # install roles
+  $ ansible-galaxy -p roles -r requirements.yml install
+
+Edit config:
+
+.. code-block:: console
+
+  $ cp etc/sample-emu.yml custom.yml
+  $ vim custom.yml
+
+Make sure to configure the extra parameters for the data archive:
+
+.. code-block:: yaml
+
+  ---
+  wps_user: wps
+  wps_group: wps
+  wps_services:
+    - name: c4cds
+      hostname: wpsdemo
+      port: 80
+      extra_config: |
+        [data]
+        c3s_cmip5_archive_root = /data/c3s-cmip5/output1
+        cordex_archive_root = /data/cordex/output
+
+Add a inventory file for remote deployment:
+
+.. code-block:: console
+
+  $ vim wpsdemo.cfg
+  $ cat wpsdemo.cfg
+  wpsdemo ansible_ssh_user=ansible
+
+Run ansible for remote deployment:
+
+.. code-block:: console
+
+  $ ansible-playbook --ask-sudo-pass -i wpsdemo.cfg playbook.yml
 
 
 .. _Ansible playbook: http://ansible-wps-playbook.readthedocs.io/en/latest/index.html
