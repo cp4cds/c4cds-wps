@@ -72,7 +72,11 @@ class CORDEX(Project):
 def filter_by_year(files, start_year=None, end_year=None):
     result = []
     for filepath in files:
-        f_start_year, f_end_year = util.parse_time_period(filepath)
+        try:
+            f_start_year, f_end_year = util.parse_time_period(filepath)
+        except Exception:
+            LOGGER.warn("could not parse time period: {}".format(filepath))
+            continue
         if end_year is not None and end_year < f_start_year:
             continue
         elif start_year is not None and start_year > f_end_year:
