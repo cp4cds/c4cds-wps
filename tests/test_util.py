@@ -26,6 +26,12 @@ def test_parse_time_period():
         '/path/to/tasmin_AFR-44i_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadRM3P_v1_day_19900101-19901231.nc'
     ) == (1990, 1990)
 
+    # false pattern
+    with pytest.raises(Exception):
+        util.parse_time_period(
+            '/path/to/data/cordex/output/EUR-44i/MOHC/ECMWF-ERAINT/evaluation/r1i1p1/MOHC-HadRM3P/v1/mon/tas/files/d20131212'  # noqa
+        )
+
 
 def test_get_variable_name():
     assert util.get_variable_name(CORDEX_NC) == 'tasmin'
