@@ -1,7 +1,5 @@
 import pytest
 
-import os
-
 from c4cds.regridder import Regridder, GLOBAL, REGIONAL
 
 from .common import C3S_CMIP5_NC, CORDEX_NC, C3S_CMIP5_ARCHIVE_BASE, CORDEX_ARCHIVE_BASE, resource_ok

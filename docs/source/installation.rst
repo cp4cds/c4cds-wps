@@ -7,12 +7,12 @@ Installation
     :local:
     :depth: 1
 
-.. Install from Conda
-.. ------------------
-..
-.. .. warning::
-..
-..    TODO: Prepare Conda package.
+Install from Conda
+------------------
+
+.. warning::
+
+   TODO: Prepare Conda package.
 
 Install from GitHub
 -------------------
@@ -23,22 +23,29 @@ Check out code from the c4cds-wps GitHub repo and start the installation:
 
    $ git clone https://github.com/cp4cds/c4cds-wps.git
    $ cd c4cds
-   $ conda env create -f environment.yml
-   $ source activate c4cds
-   $ python setup.py develop
 
-... or do it the lazy way
-+++++++++++++++++++++++++
-
-The previous installation instructions assume you have Anaconda installed.
-We provide also a ``Makefile`` to run this installation without additional steps:
+Create Conda environment named `c4cds`:
 
 .. code-block:: console
 
-   $ git clone https://github.com/cp4cds/c4cds-wps.git
-   $ cd c4cds
-   $ make clean    # cleans up a previous Conda environment
-   $ make install  # installs Conda if necessary and runs the above installation steps
+   $ conda env create -f environment.yml
+   $ source activate c4cds
+
+Install c4cds-wps app:
+
+.. code-block:: console
+
+  $ pip install -e .
+  OR
+  make install
+
+For development you can use this command:
+
+.. code-block:: console
+
+  $ pip install -e .[dev]
+  OR
+  $ make develop
 
 Start c4cds-wps PyWPS service
 -----------------------------
@@ -88,14 +95,14 @@ You can also use the ``Makefile`` to start and stop the service:
   $ make stop
 
 
-.. Run c4cds-wps as Docker container
-.. ---------------------------------
-..
-.. You can also run c4cds-wps as a Docker container.
-..
-.. .. warning::
-..
-..   TODO: Describe Docker container support.
+Run c4cds-wps as Docker container
+---------------------------------
+
+You can also run c4cds-wps as a Docker container.
+
+.. warning::
+
+  TODO: Describe Docker container support.
 
 Use Ansible to deploy c4cds-wps on your System
 ----------------------------------------------
@@ -135,7 +142,7 @@ Make sure to configure the extra parameters for the data archive:
         c3s_cmip5_archive_root = /data/c3s-cmip5/output1
         cordex_archive_root = /data/cordex/output
 
-Add a inventory file for remote deployment:
+Add an inventory file for remote deployment:
 
 .. code-block:: console
 
@@ -148,6 +155,5 @@ Run ansible for remote deployment:
 .. code-block:: console
 
   $ ansible-playbook --ask-sudo-pass -i wpsdemo.cfg playbook.yml
-
 
 .. _Ansible playbook: http://ansible-wps-playbook.readthedocs.io/en/latest/index.html

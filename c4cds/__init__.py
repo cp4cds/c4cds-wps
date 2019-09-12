@@ -2,8 +2,6 @@
 
 """Top-level package for c4cds-wps."""
 
-from .wsgi import application
+from .__version__ import __author__, __email__, __version__  # noqa: F401
 
-__author__ = """Carsten Ehbrecht"""
-__email__ = 'ehbrecht@dkrz.de'
-__version__ = '0.2.0'
+from .wsgi import application  # noqa: F401
