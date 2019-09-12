@@ -1,0 +1,9 @@
+# conda env create -f environment-docs.yml
+name: c4cds
+channels:
+  - defaults
+dependencies:
+  - pip
+  - sphinx
+  - pip:
+    - -e git+https://github.com/geopython/pywps@master#egg=pywps
