@@ -1,14 +1,15 @@
 import os
 
-import matplotlib
-matplotlib.use('agg')
-import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 from cartopy import config
 
 from netCDF4 import Dataset
 
 from c4cds.util import guess_variable_name
+
+import matplotlib
+matplotlib.use('agg')
+import matplotlib.pyplot as plt  # noqa: E402
 
 
 class Plotter(object):

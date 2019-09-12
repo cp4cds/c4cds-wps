@@ -1,11 +1,10 @@
 name: c4cds
 channels:
-- birdhouse
 - conda-forge
 dependencies:
-- six
+- pip
 # pywps
-- pywps=4.1
+#- pywps=4.2
 - jinja2
 - click
 - psutil
@@ -23,3 +22,5 @@ dependencies:
 # tests
 - pytest
 - flake8
+- pip:
+  - -e git+https://github.com/geopython/pywps@master#egg=pywps

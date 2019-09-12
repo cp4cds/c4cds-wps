@@ -6,14 +6,14 @@ from cdo import Cdo
 
 from c4cds import util
 
+import logging
+LOGGER = logging.getLogger('PYWPS')
+
 # domain types
 GLOBAL = 'global'
 REGIONAL = 'regional'
 
 GRID_FILES_DIR = os.path.join(os.path.dirname(__file__), 'resources', 'grid_files')
-
-import logging
-LOGGER = logging.getLogger('PYWPS')
 
 
 class Regridder(object):

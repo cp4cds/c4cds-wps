@@ -1,5 +1,4 @@
 import os
-import tempfile
 import glob
 
 from c4cds import util

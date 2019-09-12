@@ -1,5 +1,4 @@
 import os
-import tempfile
 
 from cdo import Cdo
 
