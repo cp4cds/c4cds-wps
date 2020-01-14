@@ -3,6 +3,7 @@ channels:
 - conda-forge
 dependencies:
 - pip
+- python=3.7
 # pywps
 - pywps=4.2
 - jinja2
